@@ -1,0 +1,39 @@
+{
+  "name": "slogged",
+  "version": "0.0.1",
+  "description": "socket.io logger middleware inspired by koa-logger",
+  "main": "dist/slogged.umd.js",
+  "module": "dist/slogged.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "standard './src/**/*.js' | snazzy && npm run base && npm run umd",
+    "base": "rollup -c 'rollup.config.base.js'",
+    "umd": "rollup -c 'rollup.config.umd.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickfatrick/slogged.git"
+  },
+  "keywords": [
+    "socket.io",
+    "logging",
+    "logger",
+    "node",
+    "middleware"
+  ],
+  "author": "Patrick Fricano <patrick.fricano@icloud.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patrickfatrick/slogged/issues"
+  },
+  "homepage": "https://github.com/patrickfatrick/slogged#readme",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.5.2",
+    "rollup": "^0.43.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2"
+  }
+}
