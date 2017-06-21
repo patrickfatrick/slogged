@@ -1,6 +1,6 @@
 {
   "name": "slogged",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "socket.io logger middleware inspired by koa-logger",
   "main": "dist/slogged.umd.js",
   "module": "dist/slogged.js",
