@@ -1,14 +1,14 @@
 {
   "name": "slogged",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "socket.io logger middleware inspired by koa-logger",
   "main": "dist/slogged.umd.js",
   "module": "dist/slogged.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "BABEL_ENV=development ava -s --verbose test/**/*.spec.js",
     "build": "standard './src/**/*.js' | snazzy && npm run base && npm run umd",
-    "base": "rollup -c 'rollup.config.base.js'",
-    "umd": "rollup -c 'rollup.config.umd.js'"
+    "base": "BABEL_ENV=production rollup -c 'rollup.config.base.js'",
+    "umd": "BABEL_ENV=production rollup -c 'rollup.config.umd.js'"
   },
   "repository": {
     "type": "git",
@@ -28,12 +28,26 @@
   },
   "homepage": "https://github.com/patrickfatrick/slogged#readme",
   "devDependencies": {
+    "ava": "^0.19.1",
     "babel-core": "^6.25.0",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "rollup": "^0.43.0",
     "rollup-plugin-babel": "^2.7.1",
+    "sinon": "^2.3.5",
     "snazzy": "^7.0.0",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3",
     "standard": "^10.0.2"
+  },
+  "peerDependencies": {
+    "socket.io": ">= 1 < 3"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-core/register"
+    ]
   }
 }

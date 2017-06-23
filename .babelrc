@@ -8,5 +8,19 @@
       }
     ]
   ],
-  "plugins": [ "external-helpers" ]
+  "plugins": [ "external-helpers" ],
+  "env": {
+    "development": {
+      "sourceMaps": "inline",
+      "plugins": [ "transform-runtime" ],
+      "presets": [
+        [
+          "env",
+          {
+            "modules": "commonjs"
+          }
+        ]
+      ]
+    }
+  }
 }

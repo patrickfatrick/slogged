@@ -60,7 +60,8 @@ export default function slogger (opts = {}) {
             logError(
               packetEvent,
               socket.id,
-              Date.now() - requestStart, args[0],
+              Date.now() - requestStart,
+              args[0],
               !minimal && `\n${args[0].stack}`
             )
           } else {
@@ -153,7 +154,7 @@ function logDown (packetEvent, id, time, ack) {
       bold(packetEvent),
       gray(id),
       green('OK'),
-      time && gray(time + 'ms'),
+      typeof time === 'number' && gray(time + 'ms'),
       ack && ack.map(item => JSON.stringify(item)).join(' , ')
     )
   )
@@ -197,7 +198,7 @@ function logError (packetEvent, id, time, error, stack) {
       bold(packetEvent),
       gray(id),
       red('ERR'),
-      time && gray(time + 'ms'),
+      typeof time === 'number' && gray(time + 'ms'),
       red(error.message),
       stack && stack
     )

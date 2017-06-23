@@ -149,7 +149,7 @@ function logUp(packetEvent, id, payload) {
 function logDown(packetEvent, id, time, ack) {
   var _console2;
 
-  (_console2 = console).log.apply(_console2, toConsumableArray(gather(magenta('[socket.io]'), gray('-->'), bold(packetEvent), gray(id), green('OK'), time && gray(time + 'ms'), ack && ack.map(function (item) {
+  (_console2 = console).log.apply(_console2, toConsumableArray(gather(magenta('[socket.io]'), gray('-->'), bold(packetEvent), gray(id), green('OK'), typeof time === 'number' && gray(time + 'ms'), ack && ack.map(function (item) {
     return JSON.stringify(item);
   }).join(' , '))));
 }
@@ -182,7 +182,7 @@ function logEmit(packetEvent, rooms, broadcaster, payload) {
 function logError(packetEvent, id, time, error, stack) {
   var _console4;
 
-  (_console4 = console).log.apply(_console4, toConsumableArray(gather(magenta('[socket.io]'), red('-->'), bold(packetEvent), gray(id), red('ERR'), time && gray(time + 'ms'), red(error.message), stack && stack)));
+  (_console4 = console).log.apply(_console4, toConsumableArray(gather(magenta('[socket.io]'), red('-->'), bold(packetEvent), gray(id), red('ERR'), typeof time === 'number' && gray(time + 'ms'), red(error.message), stack && stack)));
 }
 
 return slogger;
