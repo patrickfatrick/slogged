@@ -1,3 +1,5 @@
+import chalk from 'chalk'
+
 const {
  magenta,
  gray,
@@ -5,7 +7,7 @@ const {
  green,
  red,
  yellow
-} = require('chalk')
+} = chalk
 
 export default function slogger (opts = {}) {
   // minimal flag controls whether payloads, acks, and error stacks are logged
