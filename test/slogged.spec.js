@@ -2,6 +2,7 @@ import test from 'ava'
 import sinon from 'sinon'
 import slogger from '../src'
 import io from './io'
+import validateLog from './validate-log'
 let socket
 let server
 
@@ -32,13 +33,14 @@ test.cb('connection', (t) => {
     t.falsy(err)
     t.is(console.log.callCount, 3)
 
-    const eventLogArgs = console.log.args[0]
+    t.true(validateLog(
+      console.log.args[0],
+      /\[socket\.io\]/,
+      /<--/,
+      /connection/,
+      /\w+/
+    ))
 
-    t.is(eventLogArgs.length, 4)
-    t.true(eventLogArgs[0].includes('[socket.io]'))
-    t.true(eventLogArgs[1].includes('<--'))
-    t.true(eventLogArgs[2].includes('connection'))
-    t.true(/\w+/.test(eventLogArgs[3]))
     t.end()
   })
 })
@@ -49,14 +51,15 @@ test.cb('event', (t) => {
     t.truthy(ack)
     t.is(console.log.callCount, 2)
 
-    const eventArgLogs = console.log.args[0]
+    t.true(validateLog(
+      console.log.args[0],
+      /\[socket\.io\]/,
+      /<--/,
+      /event\.spec/,
+      /\w+/,
+      /"hello"/
+    ))
 
-    t.is(eventArgLogs.length, 5)
-    t.true(eventArgLogs[0].includes('[socket.io]'))
-    t.true(eventArgLogs[1].includes('<--'))
-    t.true(eventArgLogs[2].includes('event.spec'))
-    t.true(/\w+/.test(eventArgLogs[3]))
-    t.true(eventArgLogs[4].includes('"hello"'))
     t.end()
   })
 })
@@ -67,16 +70,17 @@ test.cb('ack', (t) => {
     t.truthy(ack)
     t.is(console.log.callCount, 2)
 
-    const ackLogArgs = console.log.args[1]
+    t.true(validateLog(
+      console.log.args[1],
+      /\[socket\.io\]/,
+      /-->/,
+      /ack\.spec/,
+      /\w+/,
+      /OK/,
+      /\d{1,2}ms/,
+      /"ack"/
+    ))
 
-    t.is(ackLogArgs.length, 7)
-    t.true(ackLogArgs[0].includes('[socket.io]'))
-    t.true(ackLogArgs[1].includes('-->'))
-    t.true(ackLogArgs[2].includes('ack.spec'))
-    t.true(/\w+/.test(ackLogArgs[3]))
-    t.true(ackLogArgs[4].includes('OK'))
-    t.true(/\d{1,2}ms/.test(ackLogArgs[5]))
-    t.true(ackLogArgs[6].includes('"ack"'))
     t.end()
   })
 })
@@ -87,14 +91,15 @@ test.cb('emit', (t) => {
     t.truthy(ack)
     t.is(console.log.callCount, 3)
 
-    const emitLogArgs = console.log.args[1]
+    t.true(validateLog(
+      console.log.args[1],
+      /\[socket\.io\]/,
+      />>>/,
+      /emit/,
+      /\//,
+      /"hi"/
+    ))
 
-    t.is(emitLogArgs.length, 5)
-    t.true(emitLogArgs[0].includes('[socket.io]'))
-    t.true(emitLogArgs[1].includes('>>>'))
-    t.true(emitLogArgs[2].includes('emit'))
-    t.true(emitLogArgs[3].includes('/'))
-    t.true(emitLogArgs[4].includes('"hi"'))
     t.end()
   })
 })
@@ -105,15 +110,16 @@ test.cb('broadcast', (t) => {
     t.truthy(ack)
     t.is(console.log.callCount, 3)
 
-    const broadcastLogArgs = console.log.args[1]
+    t.true(validateLog(
+      console.log.args[1],
+      /\[socket\.io\]/,
+      />>>/,
+      /broadcast/,
+      /\//,
+      /broadcast by \w+/,
+      /"hi"/
+    ))
 
-    t.is(broadcastLogArgs.length, 6)
-    t.true(broadcastLogArgs[0].includes('[socket.io]'))
-    t.true(broadcastLogArgs[1].includes('>>>'))
-    t.true(broadcastLogArgs[2].includes('broadcast'))
-    t.true(broadcastLogArgs[3].includes('/'))
-    t.true(broadcastLogArgs[4].includes('broadcast by'))
-    t.true(broadcastLogArgs[5].includes('"hi"'))
     t.end()
   })
 })
@@ -126,14 +132,15 @@ test.cb('rooms', (t) => {
     t.truthy(ack)
     t.is(console.log.callCount, 5)
 
-    const roomLogArgs = console.log.args[3]
+    t.true(validateLog(
+      console.log.args[3],
+      /\[socket\.io\]/,
+      />>>/,
+      /rooms/,
+      /room1,room2/,
+      /"hi"/
+    ))
 
-    t.is(roomLogArgs.length, 5)
-    t.true(roomLogArgs[0].includes('[socket.io]'))
-    t.true(roomLogArgs[1].includes('>>>'))
-    t.true(roomLogArgs[2].includes('rooms'))
-    t.true(roomLogArgs[3].includes('room1,room2'))
-    t.true(roomLogArgs[4].includes('"hi"'))
     t.end()
   })
 })
@@ -144,17 +151,18 @@ test.cb('error', (t) => {
     t.falsy(ack)
     t.is(console.log.callCount, 2)
 
-    const errorLogArgs = console.log.args[1]
+    t.true(validateLog(
+      console.log.args[1],
+      /\[socket\.io\]/,
+      /-->/,
+      /error\.spec/,
+      /\w+/,
+      /ERR/,
+      /\d{1,2}ms/,
+      /Oh no/,
+      /\/io.js/
+    ))
 
-    t.is(errorLogArgs.length, 8)
-    t.true(errorLogArgs[0].includes('[socket.io]'))
-    t.true(errorLogArgs[1].includes('-->'))
-    t.true(errorLogArgs[2].includes('error.spec'))
-    t.true(/\w+/.test(errorLogArgs[3]))
-    t.true(errorLogArgs[4].includes('ERR'))
-    t.true(/\d{1,2}ms/.test(errorLogArgs[5]))
-    t.true(errorLogArgs[6].includes('Oh no'))
-    t.true(errorLogArgs[7].includes('/io.js'))
     t.end()
   })
 })
@@ -164,28 +172,30 @@ test.cb('disconnect', (t) => {
   server.close(() => {
     t.is(console.log.callCount, 3)
 
-    const disconnectAckLogArgs = console.log.args[0]
-    t.is(disconnectAckLogArgs.length, 5)
-    t.true(disconnectAckLogArgs[0].includes('[socket.io]'))
-    t.true(disconnectAckLogArgs[1].includes('-->'))
-    t.true(disconnectAckLogArgs[2].includes('disconnect'))
-    t.true(/\w+/.test(disconnectAckLogArgs[3]))
-    t.true(disconnectAckLogArgs[4].includes('OK'))
+    t.true(validateLog(
+      console.log.args[0],
+      /\[socket\.io\]/,
+      /-->/,
+      /disconnect/,
+      /\w+/,
+      /OK/
+    ))
 
-    const disconnectingEmitLogArgs = console.log.args[1]
-    t.is(disconnectingEmitLogArgs.length, 4)
-    t.true(disconnectingEmitLogArgs[0].includes('[socket.io]'))
-    t.true(disconnectingEmitLogArgs[1].includes('>>>'))
-    t.true(disconnectingEmitLogArgs[2].includes('disconnecting'))
-    t.true(disconnectingEmitLogArgs[3].includes('/'))
+    t.true(validateLog(
+      console.log.args[1],
+      /\[socket\.io\]/,
+      />>>/,
+      /disconnecting/,
+      /\//
+    ))
 
-    const disconnectEmitLogArgs = console.log.args[1]
-    t.is(disconnectEmitLogArgs.length, 4)
-    t.true(disconnectEmitLogArgs[0].includes('[socket.io]'))
-    t.true(disconnectEmitLogArgs[1].includes('>>>'))
-    t.true(disconnectEmitLogArgs[2].includes('disconnect'))
-    t.true(disconnectEmitLogArgs[3].includes('/'))
-
+    t.true(validateLog(
+      console.log.args[1],
+      /\[socket\.io\]/,
+      />>>/,
+      /disconnect/,
+      /\//,
+    ))
     t.end()
   })
 })
