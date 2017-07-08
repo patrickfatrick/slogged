@@ -8,8 +8,6 @@ export default function slogger(opts = {}) {
     boring = false // Controls whether logs are colorized
   } = opts;
 
-  const ctx = new chalk.constructor({enabled: !boring});
-
   const {
     magenta,
     gray,
@@ -17,7 +15,7 @@ export default function slogger(opts = {}) {
     green,
     red,
     yellow
-  } = ctx;
+  } = new chalk.constructor({enabled: !boring});
 
   return function (socket, next) {
     try {

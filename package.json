@@ -1,6 +1,6 @@
 {
   "name": "slogged",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "socket.io logger middleware inspired by koa-logger",
   "main": "dist/slogged.umd.js",
   "module": "dist/slogged.js",
@@ -44,7 +44,6 @@
     "sinon": "^2.3.6",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
-    "standard": "^10.0.2",
     "xo": "^0.18.2"
   },
   "peerDependencies": {

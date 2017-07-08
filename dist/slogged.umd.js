@@ -284,16 +284,13 @@ function slogger() {
       _opts$boring = opts.boring,
       boring = _opts$boring === undefined ? false : _opts$boring;
 
-
-  var ctx = new index.constructor({ enabled: !boring });
-
-  var magenta = ctx.magenta,
-      gray = ctx.gray,
-      bold = ctx.bold,
-      green = ctx.green,
-      red = ctx.red,
-      yellow = ctx.yellow;
-
+  var _ref = new index.constructor({ enabled: !boring }),
+      magenta = _ref.magenta,
+      gray = _ref.gray,
+      bold = _ref.bold,
+      green = _ref.green,
+      red = _ref.red,
+      yellow = _ref.yellow;
 
   return function (socket, next) {
     try {

@@ -34,13 +34,13 @@ There are essentially four different types of logs: client events, emit events, 
 
 Client events use `<--`, emit events use `>>>`, acks and errors both use `-->` as those are sent back to the originating client.
 
-Acks and errors also report the overall time taken from the time the server received the packet to when the ack or error is sent back to the client.
+Acks and errors also report the overall time taken from the time the server received the packet to when the ack or error is sent back to the client. In addition, the overall connection time for the client is reported on disconnect events.
 
 By default, payloads (both from client events and emits), acks, and error callstacks are included in the logs, but there is an option to disregard this data in the logs. See below.
 
 For emits, if the broadcast flag is added, then the log will also add the client id that initiated the emit.
 
-Finally, an important note about using acks and error logs is that the logging assumes you are using a standard Connect-like signature, with an error as the first argument, followed by the data to ack. If the first argument is not null then slogged will log it as an error.
+Finally, an important note about using acks and error logs is that the logging assumes you are using a standard Connect-like signature, with an error as the first argument, followed by the data to ack. If the first argument is not null then slogged will log it as an error. This is how it knows to log an error instead of a successful ack, since under the hood they are both triggered in the socket event's ack. 
 
 ```javascript
 ack(null, { success: true }) // CORRECT! Will be logged as an OK ack
