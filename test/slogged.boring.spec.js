@@ -7,8 +7,10 @@ import validateLog from './validate-log';
 let socket;
 let server;
 
+// Same tests as slogged.spec but the regex will catch chalk coloring
+
 test.before(() => {
-  io.use(slogger());
+  io.use(slogger({boring: true}));
   server = require('./server');
 });
 
@@ -36,10 +38,10 @@ test.cb('connection', t => {
 
     t.true(validateLog(
       console.log.args[0],
-      /\[socket\.io\]/,
-      /<--/,
-      /connection/,
-      /[a-zA-Z0-9_-]+/
+      /^\[socket\.io\]$/,
+      /^<--$/,
+      /^connection$/,
+      /^[a-zA-Z0-9_-]+$/
     ));
 
     t.end();
@@ -54,11 +56,11 @@ test.cb('event', t => {
 
     t.true(validateLog(
       console.log.args[0],
-      /\[socket\.io\]/,
-      /<--/,
-      /event\.spec/,
-      /[a-zA-Z0-9_-]+/,
-      /"hello"/
+      /^\[socket\.io\]$/,
+      /^<--$/,
+      /^event\.spec$/,
+      /^[a-zA-Z0-9_-]+$/,
+      /^"hello"$/
     ));
 
     t.end();
@@ -73,13 +75,13 @@ test.cb('ack', t => {
 
     t.true(validateLog(
       console.log.args[1],
-      /\[socket\.io\]/,
-      /-->/,
-      /ack\.spec/,
-      /[a-zA-Z0-9_-]+/,
-      /OK/,
-      /\d{1,2}ms/,
-      /"ack"/
+      /^\[socket\.io\]$/,
+      /^-->$/,
+      /^ack\.spec$/,
+      /^[a-zA-Z0-9_-]+$/,
+      /^OK$/,
+      /^\d{1,2}ms$/,
+      /^"ack"$/
     ));
 
     t.end();
@@ -94,11 +96,11 @@ test.cb('emit', t => {
 
     t.true(validateLog(
       console.log.args[1],
-      /\[socket\.io\]/,
-      />>>/,
-      /emit/,
-      /\//,
-      /"hi"/
+      /^\[socket\.io\]$/,
+      /^>>>$/,
+      /^emit$/,
+      /^\/$/,
+      /^"hi"$/
     ));
 
     t.end();
@@ -113,12 +115,12 @@ test.cb('broadcast', t => {
 
     t.true(validateLog(
       console.log.args[1],
-      /\[socket\.io\]/,
-      />>>/,
-      /broadcast/,
-      /\//,
-      /broadcast by [a-zA-Z0-9_-]+/,
-      /"hi"/
+      /^\[socket\.io\]$/,
+      /^>>>$/,
+      /^broadcast$/,
+      /^\/$/,
+      /^broadcast by [a-zA-Z0-9_-]+$/,
+      /^"hi"$/
     ));
 
     t.end();
@@ -135,11 +137,11 @@ test.cb('rooms', t => {
 
     t.true(validateLog(
       console.log.args[3],
-      /\[socket\.io\]/,
-      />>>/,
-      /rooms/,
-      /room1,room2/,
-      /"hi"/
+      /^\[socket\.io\]$/,
+      /^>>>$/,
+      /^rooms$/,
+      /^room1,room2$/,
+      /^"hi"$/
     ));
 
     t.end();
@@ -154,13 +156,13 @@ test.cb('error', t => {
 
     t.true(validateLog(
       console.log.args[1],
-      /\[socket\.io\]/,
-      /-->/,
-      /error\.spec/,
-      /[a-zA-Z0-9_-]+/,
-      /ERR/,
-      /\d{1,2}ms/,
-      /Oh no/,
+      /^\[socket\.io\]$/,
+      /^-->$/,
+      /^error\.spec$/,
+      /^[a-zA-Z0-9_-]+$/,
+      /^ERR$/,
+      /^\d{1,2}ms$/,
+      /^Oh no$/,
       /\/io.js/
     ));
 
@@ -175,28 +177,28 @@ test.cb('disconnect', t => {
 
     t.true(validateLog(
       console.log.args[0],
-      /\[socket\.io\]/,
-      /-->/,
-      /disconnect/,
-      /[a-zA-Z0-9_-]+/,
-      /OK/,
-      /\d{1,2}ms/
+      /^\[socket\.io\]$/,
+      /^-->$/,
+      /^disconnect$/,
+      /^[a-zA-Z0-9_-]+$/,
+      /^OK$/,
+      /^\d{1,2}ms$/
     ));
 
     t.true(validateLog(
       console.log.args[1],
-      /\[socket\.io\]/,
-      />>>/,
-      /disconnecting/,
-      /\//
+      /^\[socket\.io\]$/,
+      /^>>>$/,
+      /^disconnecting$/,
+      /^\/$/
     ));
 
     t.true(validateLog(
       console.log.args[1],
-      /\[socket\.io\]/,
-      />>>/,
-      /disconnecting/,
-      /\//,
+      /^\[socket\.io\]$/,
+      /^>>>$/,
+      /^disconnecting$/,
+      /^\/$/,
     ));
 
     t.end();

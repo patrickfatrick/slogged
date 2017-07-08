@@ -1,14 +1,15 @@
 {
   "name": "slogged",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "socket.io logger middleware inspired by koa-logger",
   "main": "dist/slogged.umd.js",
   "module": "dist/slogged.js",
   "scripts": {
-    "test": "BABEL_ENV=development ava -s --verbose test/**/*.spec.js",
-    "build": "standard './src/**/*.js' | snazzy && npm run base && npm run umd",
+    "test": "xo test/* && BABEL_ENV=development ava -s --verbose test/**/*.spec.js",
+    "build": "npm run lint && npm run base && npm run umd",
     "base": "BABEL_ENV=production rollup -c 'rollup.config.base.js'",
-    "umd": "BABEL_ENV=production rollup -c 'rollup.config.umd.js'"
+    "umd": "BABEL_ENV=production rollup -c 'rollup.config.umd.js'",
+    "lint": "xo src/*"
   },
   "repository": {
     "type": "git",
@@ -31,20 +32,20 @@
     "chalk": "^1.1.3"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
+    "ava": "^0.20.0",
     "babel-core": "^6.25.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.5.2",
+    "babel-preset-env": "^1.6.0",
     "rollup": "^0.43.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "sinon": "^2.3.5",
-    "snazzy": "^7.0.0",
+    "sinon": "^2.3.6",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
-    "standard": "^10.0.2"
+    "standard": "^10.0.2",
+    "xo": "^0.18.2"
   },
   "peerDependencies": {
     "socket.io": ">= 1 < 3"
@@ -54,5 +55,8 @@
     "require": [
       "babel-core/register"
     ]
+  },
+  "xo": {
+    "space": true
   }
 }

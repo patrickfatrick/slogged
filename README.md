@@ -3,7 +3,7 @@
 _socket.io logger middleware inspired by koa-logger_
 
 [![MIT License][license-image]][license-url]
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
 ## What is it?
 
@@ -52,15 +52,14 @@ Make sense?
 
 ## Options
 
-Currently there is only one option,
+Currently there are two options,
 
 ```javascript
 {
-  minimal: false
+  minimal: false, // Set to true to ignore payloads, ack data, and error call stacks
+  boring: false // Set to true to log plain jane, uncolorized text
 }
 ```
-
-Set this to true to ignore payloads (both from client events and in emit events), ack data, and error call stacks.
 
 ## Examples
 

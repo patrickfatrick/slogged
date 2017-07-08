@@ -1,5 +1,5 @@
-export default function validateLog (args, ...tests) {
+export default function validateLog(args, ...tests) {
   return args.length === tests.length && args.every((arg, i) => {
-    return tests[i].test(arg)
-  })
+    return tests[i].test(arg);
+  });
 }
